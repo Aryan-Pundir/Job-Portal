@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # Auth Service Routes
+        - id: auth-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/**
+
+        # Job Service Routes
+        - id: job-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/jobs/**
+
+        # Application Service Routes
+        - id: application-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/applications/**
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+
+app:
+  jwt:
+    secret: jobPortalSecretKey2024VeryLongSecretKeyForSecurity
